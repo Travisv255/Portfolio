@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>BertoTech Solution | Wilbert Victor - Full Stack & Mobile Dev</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fefefe;
+            color: #111827;
+            scroll-behavior: smooth;
+            line-height: 1.5;
+        }
+
+        /* custom variables */
+        :root {
+            --primary: #7C3AED;
+            --primary-dark: #6D28D9;
+            --secondary: #10B981;
+            --dark-bg: #0F172A;
+            --gray-bg: #F3F4F6;
+            --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.25s ease;
+        }
+
+        /* header / navbar - glass morphism */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .nav {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav__logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #7C3AED, #2563EB);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav__list {
+            display: flex;
+            gap: 2.2rem;
+            list-style: none;
+        }
+
+        .nav__link {
+            text-decoration: none;
+            font-weight: 600;
+            color: #1F2937;
+            transition: var(--transition);
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav__link:hover, .nav__link.active {
+            color: var(--primary);
+        }
+
+        .nav__link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0%;
+            height: 2.5px;
+            background: var(--primary);
+            transition: 0.3s;
+            border-radius: 4px;
+        }
+
+        .nav__link:hover::after, .nav__link.active::after {
+            width: 100%;
+        }
+
+        .nav__toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #1F2937;
+        }
+
+        /* hero section - modern split with abstract */
+        .hero {
+            min-height: 100vh;
+            padding: 7rem 2rem 4rem;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(145deg, #ffffff 0%, #faf5ff 100%);
+        }
+
+        .hero-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1.2;
+        }
+
+        .hero-text h2 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            color: #0F172A;
+        }
+
+        .gradient-text {
+            background: linear-gradient(120deg, #7C3AED, #3B82F6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #4B5563;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #374151;
+            max-width: 550px;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+            padding: 0.9rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .hero-image {
+            flex: 0.9;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image img {
+            max-width: 380px;
+            width: 100%;
+            border-radius: 48% 52% 35% 65% / 70% 35% 65% 30%;
+            background: linear-gradient(135deg, #7C3AED20, #3B82F620);
+            padding: 0.8rem;
+            box-shadow: var(--card-shadow);
+            transition: 0.3s;
+        }
+
+        .social-links-hero {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1.8rem;
+        }
+
+        .social-links-hero a {
+            color: #4B5563;
+            font-size: 1.7rem;
+            transition: 0.2s;
+        }
+
+        .social-links-hero a:hover {
+            color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        /* Section headings */
+        .section-head {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-head h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: inline-block;
+            background: linear-gradient(120deg, #1E293B, #7C3AED);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .section-head .badge {
+            display: inline-block;
+            background: #E9D5FF;
+            color: #6D28D9;
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* about */
+        .about {
+            padding: 5rem 2rem;
+            background: white;
+        }
+        .about-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .about-img {
+            flex: 1;
+            text-align: center;
+        }
+        .about-img img {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 32px;
+            box-shadow: var(--card-shadow);
+        }
+        .about-text {
+            flex: 1.5;
+        }
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .about-text p {
+            color: #334155;
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+        }
+
+        /* skills section - MODERN organized by category */
+        .skills-section {
+            background: var(--gray-bg);
+            padding: 5rem 2rem;
+        }
+        .skills-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .skills-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+        .skill-category {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            box-shadow: var(--card-shadow);
+            transition: 0.2s;
+        }
+        .cat-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-left: 6px solid var(--primary);
+            padding-left: 1rem;
+        }
+        .cat-title i {
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .tech-chip {
+            background: #F1F5F9;
+            padding: 0.7rem 1.3rem;
+            border-radius: 40px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            color: #0F172A;
+        }
+        .tech-chip i {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+        .tech-chip:hover {
+            background: #E9D5FF;
+            transform: translateY(-2px);
+        }
+
+        /* work portfolio gallery */
+        .work {
+            padding: 5rem 2rem;
+            background: white;
+        }
+        .work-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
+            gap: 2rem;
+        }
+        .work-card {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+        .work-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+        }
+        .work-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+        .work-card:hover img {
+            transform: scale(1.02);
+        }
+        .work-info {
+            padding: 1.5rem;
+        }
+        .work-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* footer */
+        .footer {
+            background: #0F172A;
+            color: #CBD5E1;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .footer .footer-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, #A78BFA, #60A5FA);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        .footer-social a {
+            color: #CBD5E1;
+            font-size: 1.5rem;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        .footer-social a:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .nav__list {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 70%;
+                height: calc(100vh - 70px);
+                background: rgba(255,255,255,0.98);
+                backdrop-filter: blur(8px);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem;
+                transition: 0.3s;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.05);
+                gap: 1.8rem;
+            }
+            .nav__list.show {
+                right: 0;
+            }
+            .nav__toggle {
+                display: block;
+            }
+            .hero-content {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            .hero-text h2 {
+                font-size: 2.5rem;
+            }
+            .hero-text h3 {
+                font-size: 1.4rem;
+            }
+            .social-links-hero {
+                justify-content: center;
+            }
+            .btn-group {
+                justify-content: center;
+            }
+            .about-grid {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <nav class="nav">
+        <a href="#" class="nav__logo">BertoTech<span style="color:#7C3AED;">.</span>solution</a>
+        <ul class="nav__list">
+            <li><a href="#home" class="nav__link active">Home</a></li>
+            <li><a href="#about" class="nav__link">About</a></li>
+            <li><a href="#skills" class="nav__link">Tech Stack</a></li>
+            <li><a href="#work" class="nav__link">Projects</a></li>
+        </ul>
+        <div class="nav__toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h2>Hi, I'm <span class="gradient-text">Wilbert Victor</span></h2>
+                <h3>Full Stack & Mobile Architect</h3>
+                <p class="hero-desc">Crafting high-performance web & cross-platform apps with modern stacks. BertoTech Solution delivers innovation and clean code.</p>
+                <div class="btn-group">
+                    <a href="#work" class="btn-primary"><i class="fas fa-code-branch"></i> View Portfolio</a>
+                    <a href="https://wa.me/qr/TK3DUVQE6CBVG1" target="_blank" class="btn-outline"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                </div>
+                <div class="social-links-hero">
+                    <a href="https://www.facebook.com/share/1DLuxZYSng/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/official_wilbert.v?igsh=MWZrZDdqODQ0aWgzbQ==" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/qr/TK3DUVQE6CBVG1" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="perfil.png" alt="Wilbert Victor Profile">
+            </div>
+        </div>
+    </section>
+
+    <!-- About section with original about.jpg image -->
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-img">
+                <img src="about.jpg" alt="BertoTech about">
+            </div>
+            <div class="about-text">
+                <h3>Building tomorrow's <span class="gradient-text">digital solutions</span></h3>
+                <p>I'm Wilbert Victor, founder of BertoTech Solution — a passionate software engineer with 6+ years of experience in full-stack development, mobile engineering, and cloud architecture. I merge elegant design with robust backend systems.</p>
+                <p>Specialized in creating scalable APIs, real-time databases, and pixel-perfect UIs. I work with startups and enterprises to bring ideas from concept to production with modern DevOps practices.</p>
+                <p>📍 Based in Tanzania | Remote worldwide 🌍</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section: Organized by categories -->
+    <section class="skills-section" id="skills">
+        <div class="skills-container">
+            <div class="section-head">
+                <span class="badge">Expertise landscape</span>
+                <h2>Technology & Tools Arsenal</h2>
+            </div>
+            <div class="skills-grid">
+                <!-- programming languages -->
+                <div class="skill-category">
+                    <div class="cat-title"><i class="fas fa-code"></i> Languages & Core</div>
+                    <div class="tech-list">
+                        <span class="tech-chip"><i class="fab fa-php"></i> PHP</span>
+                        <span class="tech-chip"><i class="fab fa-html5"></i> HTML5</span>
+                        <span class="tech-chip"><i class="fab fa-css3-alt"></i> CSS3</span>
+                        <span class="tech-chip"><i class="fab fa-js"></i> JavaScript (ES6+)</span>
+                        <span class="tech-chip"><i class="fab fa-java"></i> Java</span>
+                        <span class="tech-chip"><i class="fab fa-python"></i> Python</span>
+                        <span class="tech-chip"><i class="fas fa-database"></i> SQL</span>
+                        <span class="tech-chip"><i class="fab fa-node-js"></i> TypeScript</span>
+                        <span class="tech-chip"><i class="fab fa-dart"></i> Dart</span>
+                        <span class="tech-chip"><i class="fab fa-android"></i> Kotlin</span>
+                    </div>
+                </div>
+                <!-- Frameworks & libraries -->
+                <div class="skill-category">
+                    <div class="cat-title"><i class="fas fa-cubes"></i> Frameworks & Libraries</div>
+                    <div class="tech-list">
+                        <span class="tech-chip"><i class="fab fa-tailwind"></i> Tailwind CSS</span>
+                        <span class="tech-chip"><i class="fab fa-bootstrap"></i> Bootstrap</span>
+                        <span class="tech-chip"><i class="fab fa-react"></i> React.js</span>
+                        <span class="tech-chip"><i class="fab fa-node"></i> Node.js / Express</span>
+                        <span class="tech-chip"><i class="fab fa-vuejs"></i> Vue.js</span>
+                        <span class="tech-chip"><i class="fab fa-angular"></i> Angular</span>
+                        <span class="tech-chip"><i class="fab fa-laravel"></i> Laravel</span>
+                        <span class="tech-chip"><i class="fab fa-flutter"></i> Flutter</span>
+                        <span class="tech-chip"><i class="fas fa-mobile-alt"></i> Jetpack Compose</span>
+                    </div>
+                </div>
+                <!-- Databases, BaaS & Cloud -->
+                <div class="skill-category">
+                    <div class="cat-title"><i class="fas fa-cloud"></i> Databases, Backend & BaaS</div>
+                    <div class="tech-list">
+                        <span class="tech-chip"><i class="fas fa-leaf"></i> MongoDB</span>
+                        <span class="tech-chip"><i class="fas fa-database"></i> MySQL</span>
+                        <span class="tech-chip"><i class="fas fa-fire"></i> Firebase</span>
+                        <span class="tech-chip"><i class="fas fa-superscript"></i> Supabase</span>
+                        <span class="tech-chip"><i class="fas fa-server"></i> PostgreSQL</span>
+                        <span class="tech-chip"><i class="fab fa-docker"></i> Docker</span>
+                        <span class="tech-chip"><i class="fas fa-code-branch"></i> GraphQL</span>
+                        <span class="tech-chip"><i class="fas fa-cloud-upload-alt"></i> AWS (EC2, S3)</span>
+                        <span class="tech-chip"><i class="fas fa-tools"></i> Redis / RabbitMQ</span>
+                    </div>
+                </div>
+                <!-- Extra modern techs -->
+                <div class="skill-category">
+                    <div class="cat-title"><i class="fas fa-microchip"></i> Emerging & Additional</div>
+                    <div class="tech-list">
+                        <span class="tech-chip"><i class="fas fa-chart-line"></i> Next.js</span>
+                        <span class="tech-chip"><i class="fab fa-figma"></i> Figma</span>
+                        <span class="tech-chip"><i class="fas fa-shield-alt"></i> Prisma / ORM</span>
+                        <span class="tech-chip"><i class="fas fa-bolt"></i> WebSockets</span>
+                        <span class="tech-chip"><i class="fas fa-chart-simple"></i> Tableau</span>
+                        <span class="tech-chip"><i class="fas fa-mobile"></i> React Native</span>
+                        <span class="tech-chip"><i class="fab fa-git-alt"></i> Git/GitHub Actions</span>
+                        <span class="tech-chip"><i class="fas fa-brain"></i> TensorFlow Lite</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Portfolio (using original work images: work1.jpg to work6.jpg) 
+    <section class="work" id="work">
+        <div class="section-head">
+            <span class="badge">Recent deliveries</span>
+            <h2>Innovative projects</h2>
+        </div>
+        <div class="work-grid">
+            <div class="work-card">
+                <img src="work1.jpg" alt="Work desk with papers and pencils">
+                <div class="work-info"><h4>Creative Studio</h4><p>Full-stack Laravel + Vue + Tailwind</p></div>
+            </div>
+            <div class="work-card">
+                <img src="work2.jpg" alt="Minimal desk setup with keyboard">
+                <div class="work-info"><h4>FlowBoard</h4><p>Flutter + Firebase + realtime sync</p></div>
+            </div>
+            <div class="work-card">
+                <img src="work3.jpg" alt="Person typing on laptop">
+                <div class="work-info"><h4>Insightify</h4><p>React + Node + MongoDB + Socket.io</p></div>
+            </div>
+            <div class="work-card">
+                <img src="work4.jpg" alt="Desk with laptop and camera lenses">
+                <div class="work-info"><h4>Lens CRM</h4><p>Next.js + Supabase + Typescript</p></div>
+            </div>
+            <div class="work-card">
+                <img src="work5.jpg" alt="Hand using computer mouse">
+                <div class="work-info"><h4>TaskSphere</h4><p>Kotlin + Jetpack + Room DB</p></div>
+            </div>
+            <div class="work-card">
+                <img src="work6.jpg" alt="Desk with notebook and laptop">
+                <div class="work-info"><h4>Cloud Canvas</h4><p>MERN + Tailwind + AWS S3</p></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+-->
+
+<footer class="footer">
+    <div class="footer-name">BertoTech Solution</div>
+    <div class="footer-social">
+        <a href="https://www.facebook.com/share/1DLuxZYSng/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/official_wilbert.v?igsh=MWZrZDdqODQ0aWgzbQ==" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/qr/TK3DUVQE6CBVG1" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <div class="copyright">© 2025 Wilbert Victor | BertoTech Solution — All rights reserved | Designed with ☕ & modern stack</div>
+</footer>
+
+<script>
+    // Mobile toggle and navbar active highlight
+    const navToggle = document.querySelector('.nav__toggle');
+    const navList = document.querySelector('.nav__list');
+    const navLinks = document.querySelectorAll('.nav__link');
+    const header = document.querySelector('.header');
+
+    navToggle?.addEventListener('click', () => {
+        navList.classList.toggle('show');
+        const icon = navToggle.querySelector('i');
+        icon.classList.toggle('fa-times');
+        icon.classList.toggle('fa-bars');
+    });
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+            if (window.innerWidth <= 768) {
+                navList.classList.remove('show');
+                const icon = navToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    });
+
+    // Active link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    function updateActiveLink() {
+        const scrollY = window.pageYOffset + 120;
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }
+    window.addEventListener('scroll', updateActiveLink);
+    updateActiveLink();
+</script>
+</body>
+</html>
+```
